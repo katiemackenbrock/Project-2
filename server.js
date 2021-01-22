@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const layouts = require('express-ejs-layouts');
+const axios = require('axios');
+const URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=vodka`;
 const session = require('express-session');
 const flash = require('connect-flash');
 const helmet = require('helmet');
@@ -44,6 +46,13 @@ app.get('/', (req, res) => {
 app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile');
 });
+
+axios.get(URL)
+  .then(response => {
+    console.log(response.data);
+  }).catch(err => {
+    console.log(err);
+  });
 
 app.use('/auth', require('./routes/auth'));
 
