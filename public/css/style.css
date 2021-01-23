@@ -5,7 +5,8 @@ nav ul li {
 }
 
 h1 {
-  color: chartreuse;
+  color: black;
+  margin: 0 auto;
 }
 
 .alert-container {
