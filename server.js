@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const layouts = require('express-ejs-layouts');
 const axios = require('axios');
-const cocktailSearchURL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita`;
-const ingredientSearchURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=vodka`;
+// const cocktailSearchURL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita`;
+// const ingredientSearchURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=vodka`;
 const session = require('express-session');
 const flash = require('connect-flash');
 const helmet = require('helmet');
@@ -40,6 +40,8 @@ app.use((req, res, next) => {
   next();
 });
 
+// ROUTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 app.get('/', (req, res) => {
   res.render('index');
 });
@@ -52,9 +54,50 @@ app.get('/search', (req, res) => {
   res.render('search')
 });
 
+//example route to get me started from 1:1
+// app.get('/cocktails', (req, res) => {
+//   axios.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')
+//   .then(response => {
+//     console.log(response.data);
+//     // res.send(response.data)
+//     const allCocktails = response.data
+//     console.log(allCocktails);
+//     res.render('show', {
+//       allCocktails : allCocktails
+//     })
+//   })
+// });
+
+// Route for searching by cocktail name
 app.post('/search', (req, res) => {
-  console.log(req.body);
-})
+  console.log('enter function');
+  console.log(req.body.name);
+  const cocktailName = req.body.name
+  const URL2 = `https://www.thecocktaildb.com/api/json/v1/1/search.php?`
+  axios.get(`${URL2}s=${cocktailName}`)
+  .then(response => {
+    console.log('response');
+    console.log(response);
+    const matchByCocktailName = response.data
+    res.redirect('show', {
+      matchByCocktailName
+    })
+  })
+});
+
+// Route for searching by ingredient
+app.post('/search', (req, res) => {
+  const ingredientName = req.query.name
+  const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?`
+  axios.get(`${URL}i=${ingredientName}`)
+  .then(response => {
+    const matchByIngredient = response.data
+    res.render('show', {
+      matchByIngredient : matchByIngredient
+    })
+  })
+});
+
 
 // axios.get(cocktailSearchURL)
 //   .then(response => {
