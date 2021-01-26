@@ -1,5 +1,10 @@
 <div id="cocktailList">
-    <p><% matchByCocktailName %></p>
+    <% if(matchByCocktailName) { %>
+        <p><%= matchByCocktailName %></p>
+    <% } else { %>
+        <p><%= matchByCocktailIngredient.strIngredient1 %></p>
+    <% } %>
+
     </div>
 
 <div class="cocktails-container">
@@ -8,7 +13,7 @@
             <h4><%= drink.strDrink %></h4>
             <p><%= drink.strInstructions %>
             <img src=<%= drink.strDrinkThumb %> />
-            <form method="POST" action="/favoritedrinks">
+            <form method="POST" action="/profile">
                 <input hidden type="text" name="name" value="<%= drink.name %>">
                 <button class="faveBtn" type="submit">Add to Favorite Drinks</button>
             </form>
@@ -16,20 +21,3 @@
     <% }); %>
 </div>
 
-<div id="cocktailList">
-    <p><% matchByIngredient %></p>
-    </div>
-
-<div class="cocktails-container">
-    <% matchByIngredient.drinks.forEach(function(drink) { %>
-        <div class="small-container">
-            <h4><%= drink.strDrink %></h4>
-            <p><%= drink.strInstructions %>
-            <img src=<%= drink.strDrinkThumb %> />
-            <form method="POST" action="/favoritedrinks">
-                <input hidden type="text" name="name" value="<%= drink.name %>">
-                <button class="faveBtn" type="submit">Add to Favorite Drinks</button>
-            </form>
-        </div>
-    <% }); %>
-</div>

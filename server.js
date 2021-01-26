@@ -68,35 +68,51 @@ app.get('/search', (req, res) => {
 //   })
 // });
 
+// Get route for show
+app.get('/show', (req, res) => {
+  res.render('show')
+});
+
 // Route for searching by cocktail name
 app.post('/search', (req, res) => {
   console.log('enter function');
   console.log(req.body.name);
   const cocktailName = req.body.name
-  const URL2 = `https://www.thecocktaildb.com/api/json/v1/1/search.php?`
-  axios.get(`${URL2}s=${cocktailName}`)
-  .then(response => {
-    console.log('response');
-    console.log(response);
-    const matchByCocktailName = response.data
-    res.redirect('show', {
-      matchByCocktailName
-    })
-  })
+  if (cocktailName) {
+    const URL2 = `https://www.thecocktaildb.com/api/json/v1/1/search.php?`
+    axios.get(`${URL2}s=${cocktailName}`)
+      .then(response => {
+        console.log('response');
+        // console.log(response);
+        let matchByCocktailName = response.data
+        console.log(matchByCocktailName);
+        res.render('show', { matchByCocktailName: matchByCocktailName })
+      })
+    const ingredientName = req.query.name
+  } else if (ingredientName) {
+    const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?`
+    axios.get(`${URL}i=${ingredientName}`)
+      .then(response => {
+        let matchByIngredient = response.data
+        res.render('show', {
+          matchByIngredient: matchByIngredient
+        })
+      })
+  }
 });
 
 // Route for searching by ingredient
-app.post('/search', (req, res) => {
-  const ingredientName = req.query.name
-  const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?`
-  axios.get(`${URL}i=${ingredientName}`)
-  .then(response => {
-    const matchByIngredient = response.data
-    res.render('show', {
-      matchByIngredient : matchByIngredient
-    })
-  })
-});
+// app.post('/search', (req, res) => {
+// const ingredientName = req.query.name
+// const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?`
+// axios.get(`${URL}i=${ingredientName}`)
+// .then(response => {
+//   let matchByIngredient = response.data
+//   res.render('show', {
+//     matchByIngredient : matchByIngredient
+//   })
+// })
+// });
 
 
 // axios.get(cocktailSearchURL)
@@ -108,6 +124,6 @@ app.post('/search', (req, res) => {
 
 app.use('/auth', require('./routes/auth'));
 
-var server = app.listen(process.env.PORT || 3000, ()=> console.log(`🎧You're listening to the smooth sounds of port ${process.env.PORT || 3000}🎧`));
+var server = app.listen(process.env.PORT || 3000, () => console.log(`🎧You're listening to the smooth sounds of port ${process.env.PORT || 3000}🎧`));
 
 module.exports = server;
