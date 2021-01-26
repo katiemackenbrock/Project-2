@@ -1,0 +1,17 @@
+<h1>Profile Page</h1>
+
+<h2>Welcome to your PROFILE <%= currentUser.name %> </h2>
+
+<h3>My Favorites</h3>
+
+<p>I have <%= drink.length %> favorites!</p>
+
+<% drink.forEach(function(p){ %>
+    <div class="fav">
+        <h3>
+            <a href="/favorites/<%= drink.name %>">
+                <%= drink.name %>
+            </a>
+        </h3>
+    </div>
+<% }); %>

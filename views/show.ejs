@@ -10,10 +10,10 @@
 <div class="cocktails-container">
     <% matchByCocktailName.drinks.forEach(function(drink) { %>
         <div class="small-container">
-            <h4><%= drink.strDrink %></h4>
+            <h2><%= drink.strDrink %></h2>
             <p><%= drink.strInstructions %>
-            <img src=<%= drink.strDrinkThumb %> />
-            <form method="POST" action="/profile">
+            <img src= <%= drink.strDrinkThumb %> />
+            <form method="GET" action="/favorites">
                 <input hidden type="text" name="name" value="<%= drink.name %>">
                 <button class="faveBtn" type="submit">Add to Favorite Drinks</button>
             </form>

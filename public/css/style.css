@@ -23,6 +23,10 @@ h3 {
   font-family: 'Montserrat', sans-serif;
 }
 
+h4 {
+  font-family: 'Montserrat', sans-serif;
+}
+
 p {
   font-family: 'Lora', serif;
 }
@@ -61,4 +65,9 @@ input[type=text] {
 
 ul li {
   font-family: 'Lora', serif;
+}
+
+img {
+  width: 150px;
+  height: 150px;
 }

@@ -18,7 +18,13 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
-app.use(helmet());
+// app.use(helmet());
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 app.use(session({
   secret: process.env.SESSION_SECRET, // should be an ENV variable
@@ -73,7 +79,13 @@ app.get('/show', (req, res) => {
   res.render('show')
 });
 
-// Route for searching by cocktail name
+// GET ROUTE for favorites
+app.get('/search', (req, res) => {
+  res.render('favorites')
+});
+
+
+// Route for searching by cocktail name // combined route for searching by ingredient with an if else statement
 app.post('/search', (req, res) => {
   console.log('enter function');
   console.log(req.body.name);
