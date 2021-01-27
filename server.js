@@ -81,12 +81,15 @@ app.get('/show', (req, res) => {
 });
 
 // GET AND POST ROUTE for favorites
-app.get('/favorites', (req, res) => {
-  console.log(req.body);
-  res.render('favorites')
+app.get('/favorites', isLoggedIn, (req, res) => {
+  // console.log(req.body);
+  req.user.getCocktails()
+  .then(drinks => {
+    res.render('favorites', {drinks : drinks})
+  })
 });
 
-app.post('/favorites', (req, res) => {
+app.post('/favorites', isLoggedIn, (req, res) => {
   console.log(req);
    //find current userID and get cocktail name
   // res.redirect('/favorites')
@@ -94,20 +97,22 @@ app.post('/favorites', (req, res) => {
     where: {
         id: req.user.id
     }
-}).then(([user, created]) => {
-    db.cocktail.findOrCreate({
-        where: {
-            name: req.body.name
-        }
-    }).then(([cocktail, created]) => {
-        user.addCocktail(cocktail).then(relationInfo => {
-            console.log(`${cocktail.name} added to ${user.name}`);
-        })
-    })
-}).catch(error => {
-    console.log(error)
+  }).then(([user, created]) => {
+      db.cocktail.findOrCreate({
+          where: {
+              name: req.body.name
+          }
+      }).then(([cocktail, created]) => {
+          user.addCocktail(cocktail).then(relationInfo => {
+              console.log(`${cocktail.name} added to ${user.name}`);
+              res.redirect('/favorites')
+          })
+      })
+  }).catch(error => {
+    res.send(error)
+      console.log(error)
   })
-  res.send(req.body.name)
+  // res.send(req.body.name)
   // res.send(req.params)
   //
 });

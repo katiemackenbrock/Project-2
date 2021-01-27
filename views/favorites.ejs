@@ -4,9 +4,9 @@
 
 <h3>My Favorites</h3>
 
-<p>I have <%= drink.length %> favorites!</p>
+<p>I have <%= drinks.length %> favorites!</p>
 
-<% drink.forEach(drink => { %>
+<% drinks.forEach(drink => { %>
     <div class="fav">
         <h3>
             <a href="/favorites/<%= drink.name %>">

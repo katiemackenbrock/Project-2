@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.user.belongsToMany(models.cocktail, {through: "usersCocktails"})
     }
     validPassword(typedPassword) {
       let isValid = bcrypt.compareSync(typedPassword, this.password); // returns a boolean
