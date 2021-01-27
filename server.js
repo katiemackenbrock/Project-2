@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const helmet = require('helmet');
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn');
+const db = require('./models');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -79,12 +80,31 @@ app.get('/show', (req, res) => {
   res.render('show')
 });
 
-// GET ROUTE for favorites
+// GET AND POST ROUTE for favorites
 app.get('/favorites', (req, res) => {
   console.log(req.body);
   res.render('favorites')
 });
 
+app.post('/favorites', (req, res) => {
+  console.log(req);
+   //find current userID and get cocktail name
+  // res.redirect('/favorites')
+  db.user.findOrCreate({
+    where: {
+      name: {req.body.name}
+    }
+  }).then(([cocktail, created]) => {
+    user.addCocktail(cocktail).then(relationInfo => {
+      console.log(`${cocktail.name} added to ${user.name}`);
+    })
+  }).catch(error => {
+    console.log(error)
+  })
+  res.send(req.body.name)
+  // res.send(req.params)
+  //
+});
 
 // Route for searching by cocktail name // combined route for searching by ingredient with an if else statement
 app.post('/search', (req, res) => {

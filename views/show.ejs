@@ -14,8 +14,8 @@
             <h2><%= drink.strDrink %></h2>
             <p><%= drink.strInstructions %>
             <img src= <%= drink.strDrinkThumb %> />
-            <form method="GET" action="/favorites">
-                <input hidden type="text" name="name" value="<%= drink.name %>">
+            <form method="POST" action="/favorites">
+                <input hidden type="text" name="name" value="<%= drink.strDrink %>">
                 <button class="faveBtn" type="submit">Add to Favorite Drinks</button>
             </form>
         </div>
