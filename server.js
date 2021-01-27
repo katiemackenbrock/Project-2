@@ -46,7 +46,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ROUTES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ROUTES ~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -80,7 +80,8 @@ app.get('/show', (req, res) => {
 });
 
 // GET ROUTE for favorites
-app.get('/search', (req, res) => {
+app.get('/favorites', (req, res) => {
+  console.log(req.body);
   res.render('favorites')
 });
 

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.user.hasMany(models.cocktail)
+      models.user.belongsToMany(models.cocktail, {through: "usersCocktails"})
     }
   };
   user.init({

@@ -6,7 +6,7 @@
 
 <p>I have <%= drink.length %> favorites!</p>
 
-<% drink.forEach(function(p){ %>
+<% drink.forEach(drink => { %>
     <div class="fav">
         <h3>
             <a href="/favorites/<%= drink.name %>">

@@ -1,6 +1,7 @@
 <div id="cocktailList">
+    <% console.log(typeof matchByCocktailName); %>
     <% if(matchByCocktailName) { %>
-        <p><%= matchByCocktailName %></p>
+        <!-- this is an object, kept rendering [obj obj] on screen so i deleted the code -->
     <% } else { %>
         <p><%= matchByCocktailIngredient.strIngredient1 %></p>
     <% } %>
