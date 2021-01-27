@@ -10,7 +10,7 @@ router.get('/signup', (req, res) => {
 });
 
 // Sign up POST route
-router.post('/signup', (req, res) => {
+router.post('/signup', (req, res, next) => {
   // findOrCreate a new user based on email
   db.user.findOrCreate({
     where: {
@@ -28,7 +28,7 @@ router.post('/signup', (req, res) => {
       passport.authenticate('local', {
         successRedirect: '/',
         successFlash: 'Successful account creation'
-      })(req, res);
+      })(req, res, next);
     } else { // else (there is a user at that email so they can't sign up)
     console.log(`🤬 ${user.name} already exists!`);
     req.flash('error', 'Email already exists')

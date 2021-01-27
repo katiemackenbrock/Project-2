@@ -92,13 +92,19 @@ app.post('/favorites', (req, res) => {
   // res.redirect('/favorites')
   db.user.findOrCreate({
     where: {
-      name: {req.body.name}
+        id: req.user.id
     }
-  }).then(([cocktail, created]) => {
-    user.addCocktail(cocktail).then(relationInfo => {
-      console.log(`${cocktail.name} added to ${user.name}`);
+}).then(([user, created]) => {
+    db.cocktail.findOrCreate({
+        where: {
+            name: req.body.name
+        }
+    }).then(([cocktail, created]) => {
+        user.addCocktail(cocktail).then(relationInfo => {
+            console.log(`${cocktail.name} added to ${user.name}`);
+        })
     })
-  }).catch(error => {
+}).catch(error => {
     console.log(error)
   })
   res.send(req.body.name)
