@@ -2,12 +2,12 @@ const db = require("./models");
 
 db.user.findOrCreate({
     where: {
-        id: req.user.id
+        id: //change to req.user.id
     }
 }).then(([user, created]) => {
     db.cocktail.findOrCreate({
         where: {
-            name: req.body.name
+            name: //change to req.body.name
         }
     }).then(([cocktail, created]) => {
         user.addCocktail(cocktail).then(relationInfo => {

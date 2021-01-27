@@ -11,11 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // models.usersCocktails.belongsToMany(models.user, {through: "user"})
-      // models.usersCocktails.belongsToMany(models.cocktail, {through: "cocktail"})
-      // not working below
-      // models.usersCocktails.hasMany(models.user, {through: "user"})
-      // models.usersCocktails.hasMany(models.cocktail, {through: "cocktail"})
     }
   };
   usersCocktails.init({

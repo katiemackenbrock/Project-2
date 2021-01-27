@@ -2,8 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const layouts = require('express-ejs-layouts');
 const axios = require('axios');
-// const cocktailSearchURL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita`;
-// const ingredientSearchURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=vodka`;
 const session = require('express-session');
 const flash = require('connect-flash');
 const helmet = require('helmet');
@@ -19,7 +17,6 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
-// app.use(helmet());
 
 app.use(
   helmet({
@@ -61,20 +58,6 @@ app.get('/search', (req, res) => {
   res.render('search')
 });
 
-//example route to get me started from 1:1
-// app.get('/cocktails', (req, res) => {
-//   axios.get('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')
-//   .then(response => {
-//     console.log(response.data);
-//     // res.send(response.data)
-//     const allCocktails = response.data
-//     console.log(allCocktails);
-//     res.render('show', {
-//       allCocktails : allCocktails
-//     })
-//   })
-// });
-
 // Get route for show
 app.get('/show', (req, res) => {
   res.render('show')
@@ -82,7 +65,6 @@ app.get('/show', (req, res) => {
 
 // GET AND POST ROUTE for favorites
 app.get('/favorites', isLoggedIn, (req, res) => {
-  // console.log(req.body);
   req.user.getCocktails()
   .then(drinks => {
     res.render('favorites', {drinks : drinks})
@@ -91,8 +73,6 @@ app.get('/favorites', isLoggedIn, (req, res) => {
 
 app.post('/favorites', isLoggedIn, (req, res) => {
   console.log(req);
-   //find current userID and get cocktail name
-  // res.redirect('/favorites')
   db.user.findOrCreate({
     where: {
         id: req.user.id
@@ -112,9 +92,6 @@ app.post('/favorites', isLoggedIn, (req, res) => {
     res.send(error)
       console.log(error)
   })
-  // res.send(req.body.name)
-  // res.send(req.params)
-  //
 });
 
 // Route for searching by cocktail name // combined route for searching by ingredient with an if else statement
@@ -127,7 +104,6 @@ app.post('/search', (req, res) => {
     axios.get(`${URL2}s=${cocktailName}`)
       .then(response => {
         console.log('response');
-        // console.log(response);
         let matchByCocktailName = response.data
         console.log(matchByCocktailName);
         res.render('show', { matchByCocktailName: matchByCocktailName })
@@ -145,26 +121,15 @@ app.post('/search', (req, res) => {
   }
 });
 
-// Route for searching by ingredient
-// app.post('/search', (req, res) => {
-// const ingredientName = req.query.name
-// const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?`
-// axios.get(`${URL}i=${ingredientName}`)
-// .then(response => {
-//   let matchByIngredient = response.data
-//   res.render('show', {
-//     matchByIngredient : matchByIngredient
-//   })
-// })
-// });
-
-
-// axios.get(cocktailSearchURL)
-//   .then(response => {
-//     console.log(response.data);
-//   }).catch(err => {
-//     console.log(err);
-//   });
+// Route for deleting a favorite from favorites page
+app.delete('/favorites', function (req, res) {
+  console.log("DELETE favorite")
+  Favorites.findByIdAndRemove(req.params.id).then((favorites) => {
+    res.redirect('/favorites');
+  }).catch((err) => {
+    console.log(err.message);
+  })
+})
 
 app.use('/auth', require('./routes/auth'));
 

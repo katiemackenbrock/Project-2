@@ -13,5 +13,8 @@
                 <%= drink.name %>
             </a>
         </h3>
+        <form method="POST" action="/favorites/{{favCocktail._id}}?_method=DELETE">
+            <button type="submit">Delete</button>
+        </form>
     </div>
 <% }); %>
