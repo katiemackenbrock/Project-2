@@ -9,6 +9,7 @@ const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn');
 const db = require('./models');
 const app = express();
+const methodOverride = require('method-override');
 
 app.set('view engine', 'ejs');
 
@@ -43,6 +44,8 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();
 });
+
+app.use(methodOverride('_method'));
 
 // ROUTES ~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!~!
 
@@ -122,14 +125,15 @@ app.post('/search', (req, res) => {
 });
 
 // Route for deleting a favorite from favorites page
-app.delete('/favorites', function (req, res) {
-  console.log("DELETE favorite")
-  Favorites.findByIdAndRemove(req.params.id).then((favorites) => {
-    res.redirect('/favorites');
-  }).catch((err) => {
-    console.log(err.message);
+app.delete('/favorites/:id', function (req, res) {
+  console.log(req.user.id);
+  db.cocktail.destroy({where: {
+    id : req.body.id
+  }}).then(() => {
+    res.redirect('/favorites')
   })
-})
+});
+
 
 app.use('/auth', require('./routes/auth'));
 

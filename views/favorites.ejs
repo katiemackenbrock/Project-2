@@ -11,10 +11,13 @@
         <h3>
             <a href="/favorites/<%= drink.name %>">
                 <%= drink.name %>
+                <%= drink.id %>
             </a>
         </h3>
-        <form method="POST" action="/favorites/{{favCocktail._id}}?_method=DELETE">
-            <button type="submit">Delete</button>
+        <form method="POST" action='/favorites/<%= drink.name %> ?_method=DELETE'>
+            <input type="hidden" name="id" value="<%= drink.id %>">
+            <input type="hidden" name="drinkName" value="<%= drink.name %>">
+            <input type="submit" value="Remove from favorites">
         </form>
     </div>
 <% }); %>
